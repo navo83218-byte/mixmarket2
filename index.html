@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MIXMARKET</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#5b3df5">
+<link rel="icon" href="icon.svg">
+<style>
+:root{--bg:#f1f0fb;--card:#fff;--tx:#17142b;--mut:#6c6890;--line:#e2e0f3;--pri:#5b3df5;--pri2:#ff7a1a;--in:#f6f5fd;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#110f22;--card:#1c1936;--tx:#f1efff;--mut:#9d98c9;--line:#2e2a52;--in:#25214a}}
+:root[data-theme="dark"]{--bg:#110f22;--card:#1c1936;--tx:#f1efff;--mut:#9d98c9;--line:#2e2a52;--in:#25214a}
+*{box-sizing:border-box;margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+html,body{height:100%}body{background:var(--bg);color:var(--tx);font-size:15px}
+#app{max-width:560px;margin:0 auto;min-height:100%;padding:0 0 84px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:linear-gradient(120deg,#4f2fe8,#8a3df5 55%,#ff7a1a);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px;border-radius:0 0 22px 22px}
+header b{font-size:20px;letter-spacing:.5px;font-weight:900}
+header input{flex:1;border:0;border-radius:14px;padding:11px 14px;background:rgba(255,255,255,.95);color:#17142b;font-size:15px;min-width:0}
+.pad{padding:14px}
+h2{font-size:18px;margin:6px 0 10px}
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.cat{border:0;border-radius:16px;padding:10px 2px;color:#fff;font-weight:700;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:74px;justify-content:center;cursor:pointer;text-align:center}
+.cat i{font-style:normal;font-size:24px}
+.cat.on{outline:3px solid var(--tx)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ad{background:var(--card);border-radius:18px;overflow:hidden;position:relative;border:1px solid var(--line);cursor:pointer}
+.ad .im{height:112px}.im img,.big img{width:100%;height:100%;object-fit:cover;display:block}
+.ph{height:100%;display:flex;align-items:center;justify-content:center;font-size:44px}
+.ad .in{padding:9px 10px 11px}.pr{font-weight:900;font-size:16px}.nm{font-size:13px;margin:2px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.mt{color:var(--mut);font-size:12px}
+.fav{position:absolute;top:7px;right:7px;width:34px;height:34px;border-radius:50%;border:0;background:rgba(255,255,255,.92);font-size:18px;cursor:pointer}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:800;font-size:15px;color:#fff;background:linear-gradient(120deg,#5b3df5,#8a3df5);cursor:pointer}
+.btn.o{background:linear-gradient(120deg,#ff7a1a,#ff4d6d)}.btn.g{background:var(--in);color:var(--tx);border:1px solid var(--line)}.btn.w{width:100%}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.row>*{flex:1}
+label{display:block;font-size:12px;color:var(--mut);margin:10px 0 4px;font-weight:700}
+input,select,textarea{width:100%;border:1px solid var(--line);background:var(--in);color:var(--tx);border-radius:12px;padding:11px 12px;font-size:15px}
+textarea{min-height:90px}
+nav{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{border:0;background:none;color:var(--mut);font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 8px;cursor:pointer;position:relative}
+nav button i{font-style:normal;font-size:21px}nav button.on{color:var(--pri)}
+nav .plus i{background:linear-gradient(120deg,#ff7a1a,#ff4d6d);color:#fff;border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;margin-top:-18px;font-size:26px}
+.big{height:230px;border-radius:20px;overflow:hidden;display:flex;gap:6px}.big>*{flex:1;min-width:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin:10px 0}
+.chat{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.b{max-width:80%;padding:9px 12px;border-radius:16px;background:var(--card);border:1px solid var(--line)}.b.me{align-self:flex-end;background:linear-gradient(120deg,#5b3df5,#8a3df5);color:#fff;border:0}
+.tag{display:inline-block;background:var(--in);border:1px solid var(--line);border-radius:10px;padding:4px 9px;font-size:12px;margin:2px 4px 2px 0}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#17142b;color:#fff;padding:10px 16px;border-radius:14px;z-index:9;font-size:14px;max-width:90%}
+.pv{display:flex;gap:6px;margin-top:6px}.pv img{width:64px;height:64px;object-fit:cover;border-radius:10px}
+.note{font-size:12px;color:var(--mut);padding:0 14px 10px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,onAuthStateChanged,createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,sendEmailVerification,sendPasswordResetEmail} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getFirestore,collection,doc,getDoc,getDocs,setDoc,addDoc,deleteDoc,updateDoc,query,where,orderBy,limit,onSnapshot} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+const app=initializeApp({apiKey:"AIzaSyDal8xKsHaRjoUI9ledxzTKJ7zAO6gYpeU",authDomain:"mixmarket-15127.firebaseapp.com",projectId:"mixmarket-15127",storageBucket:"mixmarket-15127.firebasestorage.app",messagingSenderId:"144463789027",appId:"1:144463789027:web:45a5fc893398162ec77ed6"});
+const auth=getAuth(app),db=getFirestore(app);
+const CATS=[["auto","Авто и транспорт","🚗","#3b2fe0","#9b3df0"],["el","Электроника","📱","#1d6bff","#ff8a1f"],["cl","Одежда","👕","#ff4d8d","#ff8fb1"],["sh","Обувь","👟","#0fb5a6","#5ad6c3"],["re","Недвижимость","🏠","#2e9e5b","#8bd35a"],["ho","Дом и мебель","🛋️","#e08a00","#ffc14d"],["be","Красота и здоровье","💄","#e0457b","#ff9ec0"],["sp","Спорт и отдых","⚽","#16a34a","#38d6c2"],["ga","Игры и развлечения","🎮","#7c3aed","#e040fb"],["ki","Детские товары","🧸","#f5b400","#ff8fa3"],["to","Инструменты","🔧","#475569","#ff7a1a"],["pe","Для животных","🐾","#a0522d","#f2a65a"],["ot","Другое","📦","#64748b","#94a3b8"]];
+const CUR={"Россия":"₽","Беларусь":"Br","Казахстан":"₸","Узбекистан":"сўм","Армения":"֏","Азербайджан":"₼","Кыргызстан":"сом","Таджикистан":"SM","Молдова":"L","Грузия":"₾"};
+const CO=Object.keys(CUR),F0={q:"",co:"",city:"",cat:"",min:"",max:"",days:"",brand:"",model:"",y1:"",y2:"",km:"",fuel:"",color:"",gear:""};
+let U=null,PR=null,ADS=[],FAV=[],BLK=[],CH=[],P=[],R={v:"home"},FO=false,ready=false,unsub=null,F={...F0},lastSend=0;
+const $=i=>document.getElementById(i);
+const e=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const toast=t=>{const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),3000)};
+const MSG={"auth/invalid-credential":"Неверная почта или пароль","auth/email-already-in-use":"Эта почта уже зарегистрирована","auth/weak-password":"Слишком простой пароль","auth/invalid-email":"Проверьте адрес почты","auth/too-many-requests":"Слишком много попыток, подождите","permission-denied":"Нет доступа. Проверьте правила Firestore","unavailable":"Нет связи с сервером"};
+const T=f=>async(...a)=>{try{await f(...a)}catch(x){console.error(x);toast(MSG[x.code]||"Ошибка: "+(x.code||x.message))}};
+const cat=id=>CATS.find(c=>c[0]==id)||CATS[12];
+const money=a=>Number(a.p).toLocaleString("ru-RU")+" "+(CUR[a.co]||"");
+const ago=t=>{const d=Math.floor((Date.now()-t)/864e5);return d<1?"сегодня":d==1?"вчера":d+" дн. назад"};
+const ad=id=>ADS.find(a=>a.id==id);
+const cover=a=>{const c=cat(a.cat);return a.ph&&a.ph[0]?`<img alt="" src="${a.ph[0]}">`:`<div class="ph" style="background:linear-gradient(135deg,${c[3]},${c[4]})">${c[2]}</div>`};
+async function loadAds(){const s=await getDocs(query(collection(db,"ads"),orderBy("ts","desc"),limit(150)));ADS=s.docs.map(d=>({id:d.id,...d.data()}))}
+async function loadUser(){if(!U){PR=null;FAV=[];BLK=[];return}
+const p=await getDoc(doc(db,"users",U.uid));PR=p.exists()?p.data():{name:"",co:"Россия",city:"",ct:U.email};
+FAV=(await getDocs(collection(db,"favs",U.uid,"items"))).docs.map(d=>d.id);BLK=(await getDocs(collection(db,"blocks",U.uid,"items"))).docs.map(d=>d.id)}
+async function loadChats(){const s=await getDocs(query(collection(db,"chats"),where("members","array-contains",U.uid)));CH=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>b.ts-a.ts);if(R.v=="msgs")render()}
+function list(){const f=F,q=f.q.toLowerCase();return ADS.filter(a=>{const x=a.x||{};
+if(BLK.includes(a.uid))return false;if(q&&(a.t+" "+a.d).toLowerCase().indexOf(q)<0)return false;
+if(f.co&&a.co!=f.co)return false;if(f.city&&a.city.toLowerCase().indexOf(f.city.toLowerCase())<0)return false;
+if(f.cat&&a.cat!=f.cat)return false;if(f.min&&a.p<+f.min)return false;if(f.max&&a.p>+f.max)return false;
+if(f.days&&Date.now()-a.ts>f.days*864e5)return false;
+if(f.cat=="auto"){const h=(k,v)=>!v||(x[k]||"").toLowerCase().indexOf(v.toLowerCase())>=0;
+if(!h("brand",f.brand)||!h("model",f.model)||!h("color",f.color))return false;
+if(f.y1&&x.year<+f.y1)return false;if(f.y2&&x.year>+f.y2)return false;if(f.km&&x.km>+f.km)return false;
+if(f.fuel&&x.fuel!=f.fuel)return false;if(f.gear&&x.gear!=f.gear)return false}return true})}
+const card=a=>`<div class="ad" onclick="go('det',{id:'${a.id}'})"><div class="im">${cover(a)}</div><button class="fav" onclick="event.stopPropagation();tf('${a.id}')">${FAV.includes(a.id)?"❤️":"🤍"}</button><div class="in"><div class="pr">${money(a)}</div><div class="nm">${e(a.t)}</div><div class="mt">${e(a.city)}, ${ago(a.ts)}</div></div></div>`;
+const opts=(arr,v,ph)=>(ph?`<option value="">${ph}</option>`:"")+arr.map(o=>`<option${o==v?" selected":""}>${e(o)}</option>`).join("");
+const fin=(k,l,t)=>`<div><label>${l}</label><input type="${t||"text"}" value="${e(F[k])}" onchange="setF('${k}',this.value)"></div>`;
+function home(){let h=`<header><b>MIX<span style="color:#ffd9b8">MARKET</span></b><input placeholder="Поиск по названию и описанию" value="${e(F.q)}" onchange="setF('q',this.value)"></header><div class="pad"><div class="cats">`;
+CATS.forEach(c=>{h+=`<button class="cat${F.cat==c[0]?" on":""}" style="background:linear-gradient(135deg,${c[3]},${c[4]})" onclick="setF('cat',F.cat=='${c[0]}'?'':'${c[0]}')"><i>${c[2]}</i>${c[1]}</button>`});
+h+=`</div><div class="row"><button class="btn g" onclick="FO=!FO;render()">⚙️ Фильтры ${FO?"▲":"▼"}</button><button class="btn g" onclick="resetF()">Сбросить</button><button class="btn g" onclick="refresh()">🔄</button></div>`;
+if(FO){h+=`<div class="card"><label>Страна</label><select onchange="setF('co',this.value)">${opts(CO,F.co,"Все страны")}</select><div class="row">${fin("city","Город")}${fin("days","Опубликовано за дней","number")}</div><div class="row">${fin("min","Цена от","number")}${fin("max","Цена до","number")}</div>`;
+if(F.cat=="auto")h+=`<div class="row">${fin("brand","Марка")}${fin("model","Модель")}</div><div class="row">${fin("y1","Год от","number")}${fin("y2","Год до","number")}${fin("km","Пробег до","number")}</div><div class="row"><div><label>Топливо</label><select onchange="setF('fuel',this.value)">${opts(["Бензин","Дизель","Газ","Гибрид","Электро"],F.fuel,"Любое")}</select></div><div><label>Коробка</label><select onchange="setF('gear',this.value)">${opts(["Механика","Автомат","Робот","Вариатор"],F.gear,"Любая")}</select></div>${fin("color","Цвет")}</div>`;h+="</div>"}
+const L=list();h+=`<h2>${F.cat?cat(F.cat)[2]+" "+cat(F.cat)[1]:"Свежие объявления"} <span class="mt">${L.length}</span></h2>`;
+return h+(L.length?`<div class="grid">${L.map(card).join("")}</div>`:'<div class="card mt">Ничего не найдено. Измените фильтры или разместите своё объявление.</div>')+"</div>"}
+function det(){const a=ad(R.id);if(!a)return home();const c=cat(a.cat),x=a.x||{},own=U&&U.uid==a.uid;
+let h=`<header><button class="btn g" onclick="go('home')">←</button><b>${c[2]} ${c[1]}</b></header><div class="pad"><div class="big">${a.ph&&a.ph.length?a.ph.map(p=>`<img alt="" src="${p}">`).join(""):cover(a)}</div><div class="pr" style="font-size:26px;margin:12px 0 2px">${money(a)}</div><h2 style="margin:0">${e(a.t)}</h2><div class="mt">${e(a.co)}, ${e(a.city)} · ${ago(a.ts)}</div>`;
+if(a.cat=="auto")h+='<div style="margin:10px 0">'+[["Марка",x.brand],["Модель",x.model],["Год",x.year],["Пробег",x.km&&x.km+" км"],["Топливо",x.fuel],["Цвет",x.color],["Коробка",x.gear]].filter(r=>r[1]).map(r=>`<span class="tag">${r[0]}: ${e(r[1])}</span>`).join("")+"</div>";
+h+=`<div class="card">${e(a.d).replace(/\n/g,"<br>")}</div><div class="card"><b>👤 ${e(a.sname||"Продавец")}</b></div>`;
+if(own)h+=`<div class="row"><button class="btn" onclick="go('add',{edit:'${a.id}'})">Редактировать</button><button class="btn o" onclick="del('${a.id}')">Удалить</button></div>`;
+else h+=`<button class="btn w" onclick="openChat('${a.id}')">💬 Написать продавцу</button><div class="row"><button class="btn g" onclick="tf('${a.id}')">❤️ В избранное</button><button class="btn g" onclick="rep('${a.id}')">🚩 Жалоба</button><button class="btn g" onclick="blk('${a.uid}')">⛔ Блок</button></div>`;
+return h+"</div>"}
+const grid=(A,empty)=>A.length?`<div class="grid">${A.map(card).join("")}</div>`:`<div class="card mt">${empty}</div>`;
+const favs=()=>`<header><b>❤️ Избранное</b></header><div class="pad">${grid(ADS.filter(a=>FAV.includes(a.id)),"Пока пусто. Нажмите 🤍 на объявлении, чтобы сохранить его.")}</div>`;
+const mine=()=>`<header><button class="btn g" onclick="go('me')">←</button><b>Мои объявления</b></header><div class="pad">${grid(ADS.filter(a=>a.uid==U.uid),"У вас нет объявлений.")}<button class="btn o w" style="margin-top:12px" onclick="go('add')">＋ Добавить объявление</button></div>`;
+function add(){const a=R.edit?ad(R.edit):null;if(R.edit&&(!a||a.uid!=U.uid))return home();const x=a&&a.x||{};
+if(!R.init){P=a?a.ph.slice():[];R.init=1}const c=a?a.cat:(R.cat||"el");
+let h=`<header><b>${a?"Редактирование":"Новое объявление"}</b></header><div class="pad"><label>Название</label><input id="t" maxlength="80" value="${e(a&&a.t)}"><label>Описание</label><textarea id="d" maxlength="1500">${e(a&&a.d)}</textarea><label>Цена</label><input id="p" type="number" min="0" value="${e(a&&a.p)}"><label>Категория</label><select id="c" onchange="R.cat=this.value;render()">${CATS.map(k=>`<option value="${k[0]}"${k[0]==c?" selected":""}>${k[2]} ${k[1]}</option>`).join("")}</select><div class="row"><div><label>Страна</label><select id="co">${opts(CO,a?a.co:PR.co)}</select></div><div><label>Город</label><input id="ci" value="${e(a?a.city:PR.city)}"></div></div>`;
+if(c=="auto")h+=`<div class="row"><div><label>Марка</label><input id="x1" value="${e(x.brand)}"></div><div><label>Модель</label><input id="x2" value="${e(x.model)}"></div></div><div class="row"><div><label>Год</label><input id="x3" type="number" value="${e(x.year)}"></div><div><label>Пробег, км</label><input id="x4" type="number" value="${e(x.km)}"></div></div><div class="row"><div><label>Топливо</label><select id="x5">${opts(["Бензин","Дизель","Газ","Гибрид","Электро"],x.fuel)}</select></div><div><label>Коробка</label><select id="x6">${opts(["Механика","Автомат","Робот","Вариатор"],x.gear)}</select></div><div><label>Цвет</label><input id="x7" value="${e(x.color)}"></div></div>`;
+return h+`<label>Фотографии (до 3)</label><input type="file" accept="image/*" multiple onchange="photos(this.files)"><div class="pv" id="pv">${P.map(p=>`<img alt="" src="${p}">`).join("")}</div><button class="btn w" style="margin-top:16px" onclick="pub('${a?a.id:""}')">${a?"Сохранить":"Опубликовать"}</button></div>`}
+function photos(fs){[...fs].forEach(f=>{if(P.length>=3)return;if(!/^image\/(jpeg|png|webp)$/.test(f.type)||f.size>8e6)return toast("Допустимы JPG, PNG, WebP до 8 МБ");
+const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const s=Math.min(1,640/Math.max(im.width,im.height)),cv=document.createElement("canvas");cv.width=im.width*s;cv.height=im.height*s;cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);
+const u=cv.toDataURL("image/jpeg",.55);if(P.join("").length+u.length>750000)return toast("Фото слишком тяжёлые, уберите одно");P.push(u);$("pv").innerHTML=P.map(p=>`<img alt="" src="${p}">`).join("")};im.onerror=()=>toast("Файл не является изображением");im.src=r.result};r.readAsDataURL(f)})}
+async function verified(){await U.reload();if(!U.emailVerified){toast("Сначала подтвердите почту (письмо отправлено при регистрации)");return false}return true}
+const pub=T(async id=>{const t=$("t").value.trim(),pv=$("p").value;if(t.length<3)return toast("Введите название (от 3 символов)");if(pv===""||+pv<0)return toast("Укажите цену");if(!$("ci").value.trim())return toast("Укажите город");
+if(!await verified())return;if(!id&&ADS.filter(a=>a.uid==U.uid).length>=10)return toast("Лимит: не более 10 объявлений (защита от спама)");
+const c=$("c").value,x=c=="auto"?{brand:$("x1").value,model:$("x2").value,year:+$("x3").value||0,km:+$("x4").value||0,fuel:$("x5").value,gear:$("x6").value,color:$("x7").value}:{};
+const o={t,d:$("d").value.trim(),p:+pv,cat:c,co:$("co").value,city:$("ci").value.trim(),ph:P.slice(),x};
+if(id)await updateDoc(doc(db,"ads",id),o);else{const r=await addDoc(collection(db,"ads"),{...o,uid:U.uid,sname:PR.name,ts:Date.now()});id=r.id}
+await loadAds();toast(R.edit?"Изменения сохранены":"Объявление опубликовано");P=[];go("det",{id})});
+const del=T(async id=>{if(!confirm("Удалить объявление?"))return;await deleteDoc(doc(db,"ads",id));await loadAds();toast("Объявление удалено");go("mine")});
+const tf=T(async id=>{if(!U){toast("Войдите, чтобы добавить в избранное");return go("auth")}const r=doc(db,"favs",U.uid,"items",id);
+if(FAV.includes(id)){await deleteDoc(r);FAV=FAV.filter(k=>k!=id)}else{await setDoc(r,{ts:Date.now()});FAV.push(id)}render()});
+const rep=T(async id=>{if(!U){toast("Войдите, чтобы пожаловаться");return go("auth")}const r=prompt("Опишите причину жалобы");if(r){await addDoc(collection(db,"reports"),{aid:id,by:U.uid,r:r.slice(0,500),ts:Date.now()});toast("Жалоба отправлена на модерацию")}});
+const blk=T(async id=>{if(!U){toast("Войдите, чтобы заблокировать");return go("auth")}if(!confirm("Заблокировать пользователя? Его объявления будут скрыты."))return;await setDoc(doc(db,"blocks",U.uid,"items",id),{ts:Date.now()});BLK.push(id);toast("Пользователь заблокирован");go("home")});
+const msgs=()=>`<header><b>💬 Сообщения</b></header><div class="pad">${CH.length?CH.map(c=>{const p=c.members.find(m=>m!=U.uid);return `<div class="card" style="cursor:pointer" onclick="go('chat',{id:'${c.id}',aid:'${c.aid}',peer:'${p}',members:['${c.members.join("','")}'],pn:'${e((c.names||{})[p]||"Собеседник").replace(/'/g,"’")}',at:'${e(c.atitle).replace(/'/g,"’")}'})"><b>${e((c.names||{})[p]||"Собеседник")}</b> · ${e(c.atitle)}<div class="mt">${e(c.last)}</div></div>`}).join(""):'<div class="card mt">Диалогов пока нет. Откройте объявление и нажмите «Написать продавцу».</div>'}</div>`;
+function openChat(aid){if(!U){toast("Войдите, чтобы написать продавцу");return go("auth")}const a=ad(aid);go("chat",{id:aid+"_"+U.uid,aid,peer:a.uid,members:[U.uid,a.uid],pn:a.sname||"Продавец",at:a.t})}
+const chat=()=>`<header><button class="btn g" onclick="go('msgs')">←</button><b>${e(R.pn)}</b></header><div class="pad"><div class="card"><b>${e(R.at)}</b></div><div class="chat" id="cm"><div class="mt">Загрузка…</div></div><div class="row"><input id="mt" placeholder="Сообщение" maxlength="500"><button class="btn" style="flex:0 0 auto" onclick="send()">➤</button></div></div>`;
+function sub(){unsub=onSnapshot(query(collection(db,"chats",R.id,"msgs"),orderBy("ts")),s=>{const m=$("cm");if(!m)return;m.innerHTML=s.docs.length?s.docs.map(d=>{const k=d.data();return `<div class="b${k.from==U.uid?" me":""}">${e(k.tx)}</div>`}).join(""):'<div class="mt">Напишите первое сообщение</div>';scrollTo(0,document.body.scrollHeight)},()=>{const m=$("cm");if(m)m.innerHTML='<div class="mt">Напишите первое сообщение</div>'})}
+const send=T(async()=>{const t=$("mt").value.trim();if(!t)return;if(Date.now()-lastSend<1500)return toast("Слишком часто, подождите секунду");if(!await verified())return;lastSend=Date.now();
+const pn=R.pn,names={[U.uid]:PR.name||"Пользователь",[R.peer]:pn};
+await setDoc(doc(db,"chats",R.id),{members:R.members,aid:R.aid,atitle:R.at,names,last:t.slice(0,80),ts:Date.now()},{merge:true});
+await addDoc(collection(db,"chats",R.id,"msgs"),{from:U.uid,tx:t,ts:Date.now()});$("mt").value="";if(!unsub)sub()});
+const prof=()=>`<header><b>👤 Профиль</b></header><div class="pad"><div class="card"><label>Имя</label><input id="pn" value="${e(PR.name)}"><label>Страна</label><select id="pc">${opts(CO,PR.co)}</select><label>Город</label><input id="pi" value="${e(PR.city)}"><div class="mt" style="margin-top:8px">${e(U.email)} · ${U.emailVerified?"✅ почта подтверждена":"⚠️ почта не подтверждена"}</div><button class="btn w" style="margin-top:12px" onclick="sp()">Сохранить</button></div>${U.emailVerified?"":'<button class="btn g w" onclick="resend()">Отправить письмо подтверждения ещё раз</button>'}<div class="row"><button class="btn g" onclick="go(\'mine\')">Мои объявления</button><button class="btn g" onclick="go(\'favs\')">Избранное</button></div><button class="btn o w" onclick="logout()">Выйти</button></div>`;
+const sp=T(async()=>{PR={...PR,name:$("pn").value.trim()||PR.name,co:$("pc").value,city:$("pi").value.trim()};await setDoc(doc(db,"users",U.uid),PR);toast("Профиль сохранён")});
+const resend=T(async()=>{await sendEmailVerification(U);toast("Письмо отправлено, проверьте почту и папку «Спам»")});
+const logout=T(async()=>{await signOut(auth);toast("Вы вышли из аккаунта");go("home")});
+const auth_v=()=>{const reg=R.reg;return `<header><b>MIX<span style="color:#ffd9b8">MARKET</span></b></header><div class="pad"><div class="card"><h2>${reg?"Регистрация":"Вход"}</h2>${reg?`<label>Имя</label><input id="an"><label>Страна</label><select id="ac">${opts(CO,"Россия")}</select>`:""}<label>Электронная почта</label><input id="ae" type="email" placeholder="name@mail.com"><label>Пароль</label><input id="ap" type="password" placeholder="Не менее 8 символов"><button class="btn w" style="margin-top:14px" onclick="${reg?"doReg()":"doLogin()"}">${reg?"Создать аккаунт":"Войти"}</button><div class="row"><button class="btn g" onclick="R.reg=${reg?0:1};render()">${reg?"Уже есть аккаунт":"Регистрация"}</button>${reg?"":'<button class="btn g" onclick="forgot()">Забыли пароль?</button>'}</div>${reg?'<div class="mt">Регистрация по телефону появится позже.</div>':""}</div></div>`};
+const doReg=T(async()=>{const n=$("an").value.trim(),m=$("ae").value.trim(),p=$("ap").value;if(n.length<2)return toast("Введите имя");if(!/^\S+@\S+\.\S+$/.test(m))return toast("Проверьте адрес почты");if(p.length<8)return toast("Пароль: не менее 8 символов");
+const c=await createUserWithEmailAndPassword(auth,m,p);U=c.user;PR={name:n,co:$("ac").value,city:"",ct:m};await setDoc(doc(db,"users",U.uid),PR);await sendEmailVerification(U);toast("Готово! Мы отправили письмо для подтверждения почты");go("me")});
+const doLogin=T(async()=>{await signInWithEmailAndPassword(auth,$("ae").value.trim(),$("ap").value);go("home")});
+const forgot=T(async()=>{const m=$("ae").value.trim();if(!m)return toast("Введите почту в поле выше");await sendPasswordResetEmail(auth,m);toast("Письмо для сброса пароля отправлено")});
+const refresh=T(async()=>{await loadAds();render();toast("Обновлено")});
+const setF=(k,v)=>{F[k]=v;render()},resetF=()=>{F={...F0};render()};
+function go(v,x){if(["add","favs","msgs","me","chat","mine"].includes(v)&&!U){toast("Войдите, чтобы продолжить");v="auth"}if(unsub){unsub();unsub=null}R={v,...x};render();scrollTo(0,0);if(v=="msgs")loadChats().catch(()=>{});if(v=="chat")sub()}
+function render(){if(!ready){$("app").innerHTML='<div class="pad mt" style="padding-top:40vh;text-align:center">Загрузка MIXMARKET…</div>';return}
+const v=R.v;let h=v=="det"?det():v=="add"?add():v=="favs"?favs():v=="msgs"?msgs():v=="chat"?chat():v=="me"?prof():v=="mine"?mine():v=="auth"?auth_v():home();
+const n=[["home","🏠","Главная"],["favs","❤️","Избранное"],["add","＋","Добавить"],["msgs","💬","Чаты"],[U?"me":"auth","👤",U?"Профиль":"Войти"]],g=v=="det"?"home":v=="chat"?"msgs":v=="mine"?"me":v;
+h+="<nav>"+n.map(k=>`<button class="${k[0]==g?"on":""}${k[1]=="＋"?" plus":""}" onclick="${k[0]=="add"?"R.cat='';go('add')":`go('${k[0]}')`}"><i>${k[1]}</i>${k[2]}</button>`).join("")+"</nav>";$("app").innerHTML=h}
+Object.assign(window,{go,tf,setF,resetF,del,rep,blk,photos,pub,send,sp,resend,logout,doReg,doLogin,forgot,refresh,openChat,render});
+Object.defineProperty(window,"R",{get:()=>R});Object.defineProperty(window,"F",{get:()=>F});Object.defineProperty(window,"FO",{get:()=>FO,set:v=>{FO=v}});
+render();
+try{await loadAds()}catch(x){console.error(x);toast("Не удалось загрузить объявления")}
+onAuthStateChanged(auth,async u=>{U=u;try{await loadUser()}catch(x){console.error(x)}ready=true;render()});
+</script>
+</body>
+</html>
